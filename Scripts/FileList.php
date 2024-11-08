@@ -47,7 +47,7 @@ class FileList
     /**
      * Regex iterator.
      *
-     * @var \RegexIterator
+     * @var \RegexIterator<mixed, mixed, \Traversable<mixed, mixed>>
      */
     protected $fileIterator;
 
@@ -85,7 +85,7 @@ class FileList
     /**
      * Retrieve the filtered file list iterator.
      *
-     * @return \RegexIterator
+     * @return \RegexIterator<mixed, mixed, \Traversable<mixed, mixed>>
      */
     public function getIterator()
     {
