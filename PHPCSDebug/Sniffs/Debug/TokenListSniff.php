@@ -74,8 +74,7 @@ class TokenListSniff implements Sniff
      * @param int                         $stackPtr  The position of the current
      *                                               token in the stack.
      *
-     * @return int|void Integer stack pointer to skip forward or void to continue
-     *                  normal file processing.
+     * @return int
      */
     public function process(File $phpcsFile, $stackPtr)
     {
