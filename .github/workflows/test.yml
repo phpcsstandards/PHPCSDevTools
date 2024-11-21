@@ -32,11 +32,17 @@ jobs:
         # - PHP 8.1 needs PHPCS 3.6.1+ to run without errors.
         # - PHP 8.2 needs PHPCS 3.6.1+ to run without errors.
         # - PHP 8.3 needs PHPCS 3.8.0+ to run without errors (though the errors don't affect this package).
+        # - PHP 8.4 needs PHPCS 3.8.0+ to run without errors (officially 3.11.0, but 3.8.0 will work fine).
         php: ['5.4', '5.5', '5.6', '7.0', '7.1', '7.2']
         phpcs_version: ['3.1.0', 'dev-master']
 
         include:
           # Complete the matrix, while preventing issues with PHPCS versions incompatible with certain PHP versions.
+          - php: '8.4'
+            phpcs_version: 'dev-master'
+          - php: '8.4'
+            phpcs_version: '3.8.0'
+
           - php: '8.3'
             phpcs_version: 'dev-master'
           - php: '8.3'
@@ -71,12 +77,12 @@ jobs:
           - php: '7.4'
             phpcs_version: '4.0.x-dev'
 
-          - php: '8.4' # Nightly.
+          - php: '8.5' # Nightly.
             phpcs_version: 'dev-master'
 
     name: "Test${{ matrix.phpcs_version == 'dev-master' && ' + Lint' || '' }}: PHP ${{ matrix.php }} - PHPCS ${{ matrix.phpcs_version }}"
 
-    continue-on-error: ${{ matrix.php == '8.4' || matrix.phpcs_version == '4.0.x-dev' }}
+    continue-on-error: ${{ matrix.php == '8.5' || matrix.phpcs_version == '4.0.x-dev' }}
 
     steps:
       - name: Checkout code
@@ -121,7 +127,7 @@ jobs:
       # Install dependencies and handle caching in one go.
       # @link https://github.com/marketplace/actions/install-php-dependencies-with-composer
       - name: Install Composer dependencies - normal
-        if: ${{ matrix.php < 8.4 }}
+        if: ${{ matrix.php < 8.5 }}
         uses: "ramsey/composer-install@v3"
         with:
           # Bust the cache at least once a month - output format: YYYY-MM.
@@ -129,7 +135,7 @@ jobs:
 
       # For PHP "nightly", we need to install with ignore platform reqs as not all dependencies allow installation.
       - name: Install Composer dependencies - with ignore platform
-        if: ${{ matrix.php >= 8.4 }}
+        if: ${{ matrix.php >= 8.5 }}
         uses: "ramsey/composer-install@v3"
         with:
           composer-options: --ignore-platform-reqs
